@@ -364,7 +364,7 @@ void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head)
 	
 
 /////////output total char//////
-
+	long totalchar_file = 0;
 ////////////////////////
 
 	///find total count of char in code to final total bytes 
@@ -422,6 +422,7 @@ void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head)
 			if(curlength > 8)
 			{
 				fwrite(&write,sizeof(char),1,output);
+				totalchar_file++;
 				curlength = 1;
 				write = 0;
 			}
@@ -434,6 +435,7 @@ void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head)
 			if(curlength > 8)
 			{
 				fwrite(&write,sizeof(char),1,output);
+				totalchar_file++;
 				curlength = 1;
 				write = 0;
 			}
@@ -447,6 +449,7 @@ void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head)
 				if(curlength > 8)
 				{
 					fwrite(&write,sizeof(char),1,output);
+					totalchar_file++;
 					curlength = 1;
 					write = 0;
 				}
@@ -456,7 +459,11 @@ void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head)
 		read = a;
 		if(a == EOF) break;
 	}
-	if(curlength != 1) fwrite(&write,sizeof(char),1,output);
+	if(curlength != 1) 
+	{
+		fwrite(&write,sizeof(char),1,output);
+		totalchar_file++;
+	}
 	fclose(fp_tree);
 
 
@@ -486,6 +493,7 @@ void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head)
 			{
 				//printf("\nwrite, output: %d\n", write);
 				fwrite(&write,sizeof(char),1,output);
+				totalchar_file++;
 				totalchar++;
 				curlength = 1;
 				write = 0;
@@ -493,8 +501,15 @@ void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head)
 		}
 		j = 0;
 	}
-	if(curlength != 1) fwrite(&write,sizeof(char),1,output);
+	if(curlength != 1) 
+	{
+		fwrite(&write,sizeof(char),1,output);
+		totalchar_file++;
+	}
 	//printf("\n%d\n", totalchar);
+	totalchar_file = totalchar_file + 3*sizeof(long);
+	fseek(output,0,SEEK_SET);
+	fwrite(&totalchar_file, sizeof(long), 1,output);
 	fclose(input);
 	fclose(output);
 }
