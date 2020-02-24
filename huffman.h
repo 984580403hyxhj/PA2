@@ -24,9 +24,9 @@ typedef struct _lib{
 
 } lib;
 
-void treeoutput(Node *head, char *filename);
+void treeoutput(Node *head, char *filename, int total);
 
-void countChar(char * filename1, char *filename2);
+int countChar(char * filename1, char *filename2);
 
 int findlength(List *head);
 
@@ -36,7 +36,7 @@ List *sortList(List *head);
 
 Node * buildtree(List *head);
 
-lib * huffman_code(char *filename, Node *head, int size);
+lib * huffman_code(char *filename, Node *head, int size, int total);
 
 void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head);
 

@@ -6,12 +6,15 @@
 
 void freelib(lib *head)
 {
+    if(head == NULL) return;
+
     lib *temp = head->next;
     while(1)
     {
         free(head->bit);
         free(head);
         head = temp;
+        if(temp == NULL) return;
         temp=temp->next;
         if(temp == NULL)
         {
@@ -34,8 +37,21 @@ void freetree(Node *head)
 
 int main(int argc, char** argv)
 {
+    if(argc != 6)
+    {
+        printf("wrong argc\n");
+        return EXIT_FAILURE;
+    }
+
 	List *head = NULL;
 	head = findlist(argv[1]);
+    if(head == NULL) 
+    {
+        printf("exit fail\n");
+        return EXIT_FAILURE;
+    }
+
+
     int size = findlength(head);
 	head = sortList(head);
 	Node *topNode = buildtree(head);
@@ -45,13 +61,18 @@ int main(int argc, char** argv)
 	//print2D(topNode);
 
     //output count
-    countChar(argv[1], argv[2]);
+    int total = countChar(argv[1], argv[2]);
+    if(total == -1)
+    {
+        return EXIT_FAILURE;
+    }
+
 
     //output tree
-    treeoutput(topNode, argv[3]);
+    treeoutput(topNode, argv[3], total);
     //output code
     lib *lib_head;
-    lib_head = huffman_code(argv[4], topNode, size);
+    lib_head = huffman_code(argv[4], topNode, size, total);
     /*lib *libtemp = lib_head; ///////print lib
     while(libtemp != NULL)
     {

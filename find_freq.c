@@ -6,24 +6,27 @@
 
 
 ////////////////////////////
-void countChar(char * filename1, char *filename2)
+int countChar(char * filename1, char *filename2)
 {
 	long ascii = 0;
 	
 	//long arr = malloc(sizeof(long) * 256);
 	long arr[256] = {0};
+	int total = 0;
 	FILE *fp = fopen(filename1,"r");
 
 	if(fp == NULL)
 	{
 		printf("fopen fails at countChar");
-		return;
+		return -1;
 	}
 
 	while(ascii != EOF)
 	{
 		ascii = fgetc(fp);
+		if(ascii == EOF) break;
 		arr[ascii]++;
+		total++;
 	}
 	fclose(fp);
 
@@ -34,7 +37,7 @@ void countChar(char * filename1, char *filename2)
 	}
 	fclose(fp);
 
-	return;
+	return total;
 
 }
 ///////////////////above output count, all works/////////////
@@ -66,6 +69,7 @@ List *insertlist(List *org, unsigned char value, int weight)
 List *findlist(char *filename) //find char and its weight
 {
 	FILE *fp = fopen(filename, "r");
+	if(fp == NULL) return NULL;
 
 	List *head = NULL;
 	List *temp_list;
@@ -100,6 +104,7 @@ List *findlist(char *filename) //find char and its weight
 		}
 	}
 	fclose(fp);
+
 	return head;
 }
 
@@ -240,9 +245,14 @@ void preorder(Node* head, FILE *fp)
 
 }
 
-void treeoutput(Node *head, char *filename)
+void treeoutput(Node *head, char *filename, int total)
 {
 	FILE *fp = fopen(filename,"w+");
+	if(total == 0)
+	{
+		fclose(fp);
+		return;
+	}
 
 	preorder(head,fp);
 	fclose(fp);
@@ -305,9 +315,16 @@ void write_tree(FILE *fp, Node *head, int *arr, int index, lib **lib_head)
 
 }
 
-lib *huffman_code(char *filename, Node *head, int size)
+lib *huffman_code(char *filename, Node *head, int size, int total)
 {
 	FILE *fp = fopen(filename,"w+");
+	if(total == 0)
+	{
+		fclose(fp);
+		return NULL;
+	}
+
+
 	int *arr = malloc(sizeof(int) * (size+1));
 	//lib **lib_head = NULL;
 	lib **lib_head = malloc(sizeof(int*));
