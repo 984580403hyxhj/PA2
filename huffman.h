@@ -41,3 +41,5 @@ lib * huffman_code(char *filename, Node *head, int size);
 void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head);
 
 #endif
+
+
