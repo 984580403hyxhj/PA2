@@ -317,6 +317,7 @@ lib *huffman_code(char *filename, Node *head, int size)
 	write_tree(fp, head, arr, 0, lib_head);
 	lib *temp = *lib_head;
 	free(lib_head);
+	free(arr);
 
 	fclose(fp);
 	return temp;

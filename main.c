@@ -36,6 +36,34 @@ void print2D(Node *root)
    print2DUtil(root, 0); 
 }
 
+void freelib(lib *head)
+{
+    lib *temp = head->next;
+    while(1)
+    {
+        free(head->bit);
+        free(head);
+        head = temp;
+        temp=temp->next;
+        if(temp == NULL)
+        {
+            free(head->bit);
+            free(head);
+            break;
+        } 
+    }
+}
+
+void freetree(Node *head)
+{
+    if(head == NULL) return;
+
+    freetree(head->left);
+    freetree(head->right);
+
+    free(head);
+}
+
 int main(int argc, char** argv)
 {
 	List *head = NULL;
@@ -70,7 +98,8 @@ int main(int argc, char** argv)
     //printf("\n");*/
     huffman_compress(argv[1], argv[5], argv[3], lib_head);
 
-	
+	freelib(lib_head);
+    freetree(topNode);
 
 	return EXIT_SUCCESS;
 }
