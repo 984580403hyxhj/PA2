@@ -367,7 +367,7 @@ void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head)
 	fseek(input,0,SEEK_END);
 	long size = ftell(input);
 	size = size/sizeof(char);
-	printf("size : %ld\n", size);
+	//printf("size : %ld\n", size);
 	fseek(input,0,SEEK_SET);
 	
 	/////////////////
@@ -380,7 +380,7 @@ void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head)
 	totalchar_tree = totalchar_tree - count;
 	totalchar_tree = totalchar_tree/8 + (totalchar_tree%8 != 0) + count;
 	fwrite(&totalchar_tree,sizeof(long),1,output);
-	printf("totalchar_tree: %ld\n", totalchar_tree);
+	//printf("totalchar_tree: %ld\n", totalchar_tree);
 	fwrite(&size,sizeof(long),1,output);
 	fseek(fp_tree,0,SEEK_SET);
 
@@ -396,7 +396,7 @@ void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head)
 	while(a != EOF)
 	{
 		//printf("|%c|, ",a);
-		printf("|%c|\n",read);
+		//printf("|%c|\n",read);
 		if(a == '0')
 		{
 			//printf("22222\n");
@@ -421,7 +421,7 @@ void huffman_compress(char *f_input, char *f_output, char *treeinput, lib *head)
 				write = 0;
 			}
 			a = fgetc(fp_tree);
-			printf("|%c|\n", a);
+			//printf("|%c|\n", a);
 			read = a;
 			for(int k = 0; k< 8; k++)
 			{
